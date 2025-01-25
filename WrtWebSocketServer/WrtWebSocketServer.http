@@ -1,0 +1,6 @@
+@WrtWebSocketServer_HostAddress = http://localhost:5026
+
+GET {{WrtWebSocketServer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
