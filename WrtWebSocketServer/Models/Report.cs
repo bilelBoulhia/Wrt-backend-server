@@ -13,6 +13,9 @@ namespace WrtWebSocketServer.Models
 
         private string _trainRoute;
         private string _currentGare;
+        private DateTime _arrivalHour = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+
+   
 
         public string TrainRoute
         {
@@ -34,7 +37,7 @@ namespace WrtWebSocketServer.Models
             {
                 if (string.IsNullOrEmpty(TrainRoute))
                 {
-                    throw new InvalidOperationException("Set TrainRoute before setting CurrentGare.");
+                    throw new InvalidOperationException("Set train route before setting current gare.");
                 }
 
                 if (!ValidRoutes[TrainRoute].Contains(value))
@@ -45,7 +48,13 @@ namespace WrtWebSocketServer.Models
             }
         }
 
-        public DateTime ArrivalHour { get; set; }
+        public DateTime ArrivalHour
+        {
+            get => _arrivalHour;
+         
+           
+        }
+        
     }
 }
 

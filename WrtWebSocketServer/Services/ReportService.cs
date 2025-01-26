@@ -19,15 +19,15 @@ namespace WrtWebSocketServer.Service
         }
         public async Task InsertReportAsync( Report report) 
         {
-            var key = $"TrainRoute:{report.TrainRoute}";
+            
             var reportJson = JsonSerializer.Serialize(report);
-            await _database.ListRightPushAsync(key, reportJson);
+            await _database.ListRightPushAsync(report.TrainRoute, reportJson);
         }
 
         public async Task<List<Report>> GetReportsByRouteAsync(string trainRoute)
         {
-            var key = $"TrainRoute:{trainRoute}";
-            var reports = await _database.ListRangeAsync(key);
+        
+            var reports = await _database.ListRangeAsync(trainRoute);
             return reports.Select(r => JsonSerializer.Deserialize<Report>(r!)).ToList()!;
         }
     }
