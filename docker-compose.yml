@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  redis:
+    build:
+      context: .
+      dockerfile: WrtWebSocketServer/RedisDocker/Dockerfile
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  wrtwebsocketserver:
+    image: ${DOCKER_REGISTRY-}wrtwebsocketserver
+    build:
+      context: .
+      dockerfile: WrtWebSocketServer/Dockerfile
+    depends_on:
+      - redis
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379

@@ -13,10 +13,10 @@ namespace WrtWebSocketServer.Models
 
         private string _trainRoute;
         private string _currentGare;
-        private DateTime _arrivalHour = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
 
-   
 
+
+     
         public string TrainRoute
         {
             get => _trainRoute;
@@ -48,12 +48,7 @@ namespace WrtWebSocketServer.Models
             }
         }
 
-        public DateTime ArrivalHour
-        {
-            get => _arrivalHour;
-         
-           
-        }
+        public DateTime ArrivalHour{ get; set; }
         
     }
 }

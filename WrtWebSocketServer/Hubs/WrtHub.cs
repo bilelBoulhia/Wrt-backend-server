@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using WrtWebSocketServer.Handlers;
 using WrtWebSocketServer.Models;
 using WrtWebSocketServer.Service;
 
@@ -7,10 +8,12 @@ namespace WrtWebSocketServer.Hubs
     public class WrtHub : Hub
     {
         private readonly ReportService _reportService;
+        private readonly SpamHandler _spamHandler;
 
-        public WrtHub(ReportService reportService)
+        public WrtHub(ReportService reportService,SpamHandler spamHandler)
         {
             _reportService = reportService;
+            _spamHandler = spamHandler;
         }
 
         public override async Task OnConnectedAsync()
@@ -22,7 +25,10 @@ namespace WrtWebSocketServer.Hubs
         {
             try
             {
-          
+
+                report.ArrivalHour = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+
+                await _spamHandler.HandleOverReporting(report);
                 await _reportService.InsertReportAsync(report);
 
           

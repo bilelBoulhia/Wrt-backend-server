@@ -1,34 +1,31 @@
 ﻿using StackExchange.Redis;
 using System.Text.Json;
+using WrtWebSocketServer.DatabaseContext;
+using WrtWebSocketServer.Handlers;
 using WrtWebSocketServer.Interfaces;
 using WrtWebSocketServer.Models;
 
 namespace WrtWebSocketServer.Service
 {
     public class ReportService : IReport
-
     {
+        private readonly RedisContext _database;
+       
 
-        private readonly IDatabase _database;
-
-
-        public ReportService(IConnectionMultiplexer connectionMultiplexer)
+        public ReportService(RedisContext database)
         {
-
-            _database = connectionMultiplexer.GetDatabase();
+            _database = database;
+ 
         }
+
         public async Task InsertReportAsync( Report report) 
         {
-            
-            var reportJson = JsonSerializer.Serialize(report);
-            await _database.ListRightPushAsync(report.TrainRoute, reportJson);
+            await _database.Insert<Report>(report,report.TrainRoute);
         }
 
         public async Task<List<Report>> GetReportsByRouteAsync(string trainRoute)
         {
-        
-            var reports = await _database.ListRangeAsync(trainRoute);
-            return reports.Select(r => JsonSerializer.Deserialize<Report>(r!)).ToList()!;
+            return await _database.GetList<Report>(trainRoute);
         }
     }
 }
