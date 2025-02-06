@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using NodaTime;
 using WrtWebSocketServer.Handlers;
 using WrtWebSocketServer.Models;
 using WrtWebSocketServer.Service;
@@ -25,8 +26,13 @@ namespace WrtWebSocketServer.Hubs
         {
             try
             {
+             
 
-                report.ArrivalHour = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+              
+
+              
+                report.ArrivalHour = SystemClock.Instance.GetCurrentInstant().InZone(DateTimeZoneProviders.Tzdb["Africa/Algiers"]).ToDateTimeUnspecified();  
+
 
                 await _spamHandler.HandleOverReporting(report);
                 await _reportService.InsertReportAsync(report);

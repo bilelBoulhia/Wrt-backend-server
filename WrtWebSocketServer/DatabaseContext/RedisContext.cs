@@ -10,8 +10,6 @@ namespace WrtWebSocketServer.DatabaseContext
     {
         private readonly IDatabase _database;
         private const int ExpirationTimeInSeconds = 24 * 60 * 60;
-        private static RedisContext instance = null;
-        private static object padlock = new object();
 
         public RedisContext(IConnectionMultiplexer connectionMultiplexer)
         {

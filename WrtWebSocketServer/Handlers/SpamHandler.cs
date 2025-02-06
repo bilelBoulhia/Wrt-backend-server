@@ -21,13 +21,13 @@ namespace WrtWebSocketServer.Handlers
             foreach (Report rp in list)
             {
 
-                if (report.CurrentGare != rp.CurrentGare)
-                    continue;
-
-                if (report.ArrivalHour - rp.ArrivalHour  < TimeSpan.FromMinutes(5))
+                if (report.CurrentGare == rp.CurrentGare && rp.DestinationtGare == report.DestinationtGare)
+                {
+                    if (report.ArrivalHour - rp.ArrivalHour < TimeSpan.FromMinutes(5))
                     {
                         throw new InvalidOperationException("report already exist");
                     }
+                }
                 
             }
         }

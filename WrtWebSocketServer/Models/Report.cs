@@ -13,10 +13,11 @@ namespace WrtWebSocketServer.Models
 
         private string _trainRoute;
         private string _currentGare;
+        private string _destinationGare;
 
 
 
-     
+
         public string TrainRoute
         {
             get => _trainRoute;
@@ -29,20 +30,31 @@ namespace WrtWebSocketServer.Models
                 _trainRoute = value;
             }
         }
+        public string DestinationtGare
+        {
+            get => _destinationGare;
+            set
+            {
+           
+
+              if (!ValidRoutes[TrainRoute].Contains(value))
+                {
+                    throw new ArgumentException($"Invalid: {value}");
+                }
+                _destinationGare = value;
+            }
+        }
 
         public string CurrentGare
         {
             get => _currentGare;
             set
             {
-                if (string.IsNullOrEmpty(TrainRoute))
-                {
-                    throw new InvalidOperationException("Set train route before setting current gare.");
-                }
+               
 
                 if (!ValidRoutes[TrainRoute].Contains(value))
                 {
-                    throw new ArgumentException($"Invalid gare: {value} for route {TrainRoute}");
+                    throw new ArgumentException($"Invalid: {value} ");
                 }
                 _currentGare = value;
             }

@@ -20,7 +20,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
     var configuration = builder.Configuration.GetConnectionString("Redis");
     return ConnectionMultiplexer.Connect(configuration);
 });
-builder.Services.AddSwaggerGen();
+
 builder.Services.AddSignalR();
 builder.Services.AddScoped<ReportService>();
 builder.Services.AddScoped<IReport, ReportService>();
@@ -55,6 +55,8 @@ app.MapHub<WrtHub>("/wrtHub");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.MapControllers();
 
 app.MapControllers();
 
